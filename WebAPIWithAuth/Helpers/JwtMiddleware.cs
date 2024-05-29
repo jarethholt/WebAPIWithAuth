@@ -14,7 +14,7 @@ public class JwtMiddleware(RequestDelegate next, IOptions<AppSettings> settings)
 
     public async Task Invoke(HttpContext context, IUserService userService)
     {
-        var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(' ').Last();
+        var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(' ').Last();
         if (token is not null)
             await AttachUserToContext(context, userService, token);
         await _next(context);
