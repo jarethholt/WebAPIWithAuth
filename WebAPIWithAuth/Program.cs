@@ -1,6 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using WebAPIWithAuth.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<HeroContext>(
+    db => db.UseSqlServer(
+        builder.Configuration.GetConnectionString("HeroConnectionString")),
+    ServiceLifetime.Singleton);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
