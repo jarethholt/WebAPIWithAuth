@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebAPIWithAuth.Helpers;
 using WebAPIWithAuth.Models;
 using WebAPIWithAuth.Services;
 
@@ -6,6 +7,7 @@ namespace WebAPIWithAuth.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class HeroesController(IHeroService service) : ControllerBase
 {
     private readonly IHeroService _service = service;
