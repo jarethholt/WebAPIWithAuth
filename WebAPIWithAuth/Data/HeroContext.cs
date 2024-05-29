@@ -6,6 +6,7 @@ namespace WebAPIWithAuth.Data;
 public class HeroContext(DbContextOptions<HeroContext> options) : DbContext(options)
 {
     public DbSet<Hero> Hero { get; set; }
+    public DbSet<User> User { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

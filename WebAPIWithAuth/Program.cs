@@ -1,10 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using WebAPIWithAuth.Data;
+using WebAPIWithAuth.Helpers;
+using WebAPIWithAuth.Models;
 using WebAPIWithAuth.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers();
+
 builder.Services.AddDbContext<HeroContext>(
     db => db.UseSqlServer(
         builder.Configuration.GetConnectionString("HeroConnectionString")),
@@ -12,7 +16,9 @@ builder.Services.AddDbContext<HeroContext>(
 
 builder.Services.AddSingleton<IHeroService, HeroService>();
 
-builder.Services.AddControllers();
+builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+builder.Services.AddScoped<IUserService, UserService>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,5 +37,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseMiddleware<JwtMiddleware>();
 
 app.Run();
