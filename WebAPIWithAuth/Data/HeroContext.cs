@@ -19,5 +19,15 @@ public class HeroContext(DbContextOptions<HeroContext> options) : DbContext(opti
                 Id = 1,
                 FirstName = "System"
             });
+
+        modelBuilder.Entity<User>().HasData(
+            new User
+            {
+                Id = 1,
+                FirstName = "System",
+                LastName = "",
+                UserName = "System",
+                Password = "System"
+            });
     }
 }
