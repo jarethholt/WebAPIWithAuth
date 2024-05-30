@@ -1,4 +1,8 @@
-﻿namespace WebAPIWithAuth.AuthHelpers;
+﻿using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerGen;
+
+namespace WebAPIWithAuth.AuthHelpers;
 
 public class ApiKeyMiddleware(RequestDelegate next)
 {
@@ -29,4 +33,32 @@ public static class ApiKeyMiddlewareExtension
 {
     public static IApplicationBuilder UseApiKey(this IApplicationBuilder builder) =>
         builder.UseMiddleware<ApiKeyMiddleware>();
+}
+
+public static class SwaggerApiKeySecurity
+{
+    public static void AddSwaggerApiKeySecurity(this SwaggerGenOptions opts)
+    {
+        opts.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+        {
+            Description = "Api key must appear in the header",
+            Type = SecuritySchemeType.ApiKey,
+            Name = "XApiKey",
+            In = ParameterLocation.Header,
+            Scheme = "ApiKeyScheme"
+        });
+
+        OpenApiSecurityScheme key = new()
+        {
+            Reference = new OpenApiReference
+            {
+                Type = ReferenceType.SecurityScheme,
+                Id = "ApiKey"
+            },
+            In = ParameterLocation.Header
+        };
+
+        opts.AddSecurityRequirement(new OpenApiSecurityRequirement
+            { { key, new List<string>() } });
+    }
 }
