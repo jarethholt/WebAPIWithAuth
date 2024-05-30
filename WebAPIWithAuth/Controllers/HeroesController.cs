@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebAPIWithAuth.AuthHelpers;
 using WebAPIWithAuth.Models;
 using WebAPIWithAuth.Services;
 
@@ -27,6 +28,7 @@ public class HeroesController(IHeroService service) : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [TypeFilter(typeof(ApiKeyAttribute))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<Hero>> Post([FromBody] HeroDTO heroDTO)
     {
@@ -37,6 +39,7 @@ public class HeroesController(IHeroService service) : ControllerBase
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [TypeFilter(typeof(ApiKeyAttribute))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<Hero>> Put([FromRoute] int id, [FromBody] HeroDTO heroDTO)
     {
@@ -47,6 +50,7 @@ public class HeroesController(IHeroService service) : ControllerBase
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [TypeFilter(typeof(ApiKeyAttribute))]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Delete([FromRoute] int id)
     {
