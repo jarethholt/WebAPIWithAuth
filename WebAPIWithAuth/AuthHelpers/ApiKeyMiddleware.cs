@@ -24,3 +24,9 @@ public class ApiKeyMiddleware(RequestDelegate next)
         }
     }
 }
+
+public static class ApiKeyMiddlewareExtension
+{
+    public static IApplicationBuilder UseApiKey(this IApplicationBuilder builder) =>
+        builder.UseMiddleware<ApiKeyMiddleware>();
+}

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebAPIWithAuth.AuthHelpers;
 using WebAPIWithAuth.Data;
 using WebAPIWithAuth.Services;
 
@@ -28,6 +29,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseApiKey();
 app.UseAuthorization();
 
 app.MapControllers();
